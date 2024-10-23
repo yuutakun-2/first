@@ -6,20 +6,35 @@ function Item(props) {
     </li>
   );
 }
+
+function AddForm(props) {
+  const nameRef = useRef();
+  const priceRef = useRef();
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+
+        props.add(nameRef.current.value, priceRef.current.value);
+      }}
+    >
+      <input type="text" ref={nameRef} /> <br />
+      <input type="text" ref={priceRef} /> <br />
+      <button type="submit">Add</button>
+    </form>
+  );
+}
 export default function App() {
   const [data, setData] = useState([
     { id: 1, name: "Apple", price: 0.99 },
     { id: 2, name: "Orange", price: 0.89 },
   ]);
-  const nameRef = useRef();
-  const priceRef = useRef();
-  const add = () => {
-    const id = data.length + 1;
-    const name = nameRef.current.value;
-    const price = priceRef.current.value;
-    setData([...data, { id, name, price }]); //No need to write name: name because key and value are same, so JS will do it automatically
-  };
 
+  const add = (name, price) => {
+    const id = data.length + 1;
+    setData([...data, { id, name, price }]);
+  };
   return (
     <div>
       <h1>Hello React</h1>
@@ -28,9 +43,7 @@ export default function App() {
           <Item key={i.id} name={i.name} price={i.price} /> //key is needed in Virtual DOM
         ))}
       </ul>
-      <input type="text" ref={nameRef} /> <br />
-      <input type="text" ref={priceRef} /> <br />
-      <button onClick={add}>Add</button>
+      <AddForm add={add} />
     </div>
   );
 }
