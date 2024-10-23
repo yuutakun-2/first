@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 function Item(props) {
   return (
     <li>
@@ -11,9 +11,13 @@ export default function App() {
     { id: 1, name: "Apple", price: 0.99 },
     { id: 2, name: "Orange", price: 0.89 },
   ]);
+  const nameRef = useRef();
+  const priceRef = useRef();
   const add = () => {
     const id = data.length + 1;
-    setData([...data, { id, name: `Item ${id}`, price: 0.01 * id }]);
+    const name = nameRef.current.value;
+    const price = priceRef.current.value;
+    setData([...data, { id, name, price }]); //No need to write name: name because key and value are same, so JS will do it automatically
   };
 
   return (
@@ -21,9 +25,11 @@ export default function App() {
       <h1>Hello React</h1>
       <ul>
         {data.map((i) => (
-          <Item name={i.name} price={i.price} />
+          <Item key={i.id} name={i.name} price={i.price} /> //key is needed in Virtual DOM
         ))}
       </ul>
+      <input type="text" ref={nameRef} /> <br />
+      <input type="text" ref={priceRef} /> <br />
       <button onClick={add}>Add</button>
     </div>
   );
