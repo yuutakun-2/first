@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import Toolbar from "./Toolbar";
 function Item(props) {
   return (
     <li>
@@ -44,6 +45,10 @@ export default function App() {
         ))}
       </ul>
       <AddForm add={add} />
+      <Toolbar>
+        <h1>This is toolbar heading</h1>
+        <p>This is a paragraph</p>
+      </Toolbar>
     </div>
   );
 }
