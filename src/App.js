@@ -28,8 +28,11 @@ function AddForm(props) {
   );
 }
 
-const MyContext = createContext();
+// const MyContext = createContext();
+const ThemeContext = createContext();
+
 export default function App() {
+  const [theme, setTheme] = useState("light");
   const [data, setData] = useState([
     { id: 1, name: "Apple", price: 0.99 },
     { id: 2, name: "Orange", price: 0.89 },
@@ -52,20 +55,42 @@ export default function App() {
         <h1>This is toolbar heading</h1>
         <p>This is a paragraph</p>
       </Toolbar>
-      <MyContext.Provider value="Hello Context">
+
+      {/* <MyContext.Provider value="Hello Context">
         <Header />
-      </MyContext.Provider>
+      </MyContext.Provider> */}
+
+      <ThemeContext.Provider value={{ theme, setTheme }}>
+        <div
+          style={{
+            minHeight: 400,
+            color: "green",
+            padding: 20,
+            background: theme === "light" ? "lightblue" : "darkblue",
+          }}
+        >
+          <Header />
+        </div>
+      </ThemeContext.Provider>
     </div>
   );
 }
 
 function Header() {
   return <Title />;
-  // const value = useContext(MyContext);
-  // return <h1>{value}</h1>;
+  //   // const value = useContext(MyContext);
+  //   // return <h1>{value}</h1>;
 }
 
 function Title() {
-  const value = useContext(MyContext);
-  return <h1>{value}</h1>;
+  // const value = useContext(MyContext);
+  const { theme, setTheme } = useContext(ThemeContext);
+  return (
+    <div>
+      <h1>Hello Context</h1>
+      <button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+        Toggle Theme
+      </button>
+    </div>
+  );
 }
