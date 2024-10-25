@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { createContext, useContext } from "react";
 import Toolbar from "./Toolbar";
 function Item(props) {
   return (
@@ -26,6 +27,8 @@ function AddForm(props) {
     </form>
   );
 }
+
+const MyContext = createContext();
 export default function App() {
   const [data, setData] = useState([
     { id: 1, name: "Apple", price: 0.99 },
@@ -49,6 +52,20 @@ export default function App() {
         <h1>This is toolbar heading</h1>
         <p>This is a paragraph</p>
       </Toolbar>
+      <MyContext.Provider value="Hello Context">
+        <Header />
+      </MyContext.Provider>
     </div>
   );
+}
+
+function Header() {
+  return <Title />;
+  // const value = useContext(MyContext);
+  // return <h1>{value}</h1>;
+}
+
+function Title() {
+  const value = useContext(MyContext);
+  return <h1>{value}</h1>;
 }
