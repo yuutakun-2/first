@@ -94,3 +94,15 @@ function Title() {
     </div>
   );
 }
+
+function reducer(state = [], action) {
+  if (action.type === "ADD") {
+    return [...state, action.name];
+  }
+  return state;
+}
+
+const store = Redux.createStore(reducer);
+store.dispatch({ type: "ADD", name: "Apple" });
+store.dispatch({ type: "ADD", name: "Orange" });
+store.dispatch({ type: "ADD", name: "Banana" });
